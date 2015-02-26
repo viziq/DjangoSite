@@ -1,0 +1,30 @@
+<!-- импортируем форму всей странички -->
+{% extends 'main.html' %}
+
+<!-- импортируем article, которую я создал в файле видов views.py-->
+{% block article %}
+<h4>{{ article.article_date }}</h4>
+<h2>{{ article.article_title }}</h2>
+<p>{{ article.article_text }}</p>
+<hr>
+<div class="large-offset-1 large-8 columns"
+<p>Комментарии:</p>
+
+<!-- далее вытягиваем все комментарии циклом, которые есть у нас в базе в котором будет привязка по айди нашей статьи-->
+{% for comment in comments %}
+    <p>{{ comment.comments_text }}</p>
+    <p>{{ comment.comments_from.username }} {{  comment.comments_date }}</p>
+    <hr>
+{% endfor %}
+
+<!-- проверяем наличие юзера, если он есть, то включается возможность добавлять комментарий-->
+	{% if username %}
+    <form action="/articles/addcomment/{{ article.id }}/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="button" value="Добавить комментарий">
+    </form>
+    {% endif %}
+ </div>
+
+{%  endblock %}
